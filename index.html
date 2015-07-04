@@ -32,11 +32,17 @@
       }
       cursor();
       setInterval(cursor, 100);
+
+      socket.on('player', function(player){
+        $('.people').append($('<div>').text("X: " + player.x + ", Y: " + player.y));
+      });
     });
 
 
   </script>
   <body>
-    <div class="people"></div>
+    <div class="people">
+      <div id="player"></div>
+    </div>
   </body>
 </html>

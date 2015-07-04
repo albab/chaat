@@ -1,8 +1,14 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var x = 0;
-var y = 0;
+
+var Person = function () {
+  this.x = 0;
+  this.y = 0;
+  this.points = 0;
+};
+
+var person = new Person();
 
 function guid() {
   function s4() {
@@ -16,15 +22,15 @@ function guid() {
 
 
 function check_and_set_position(position) {
-  if (position[0] != x && position[1] != y) {
-    x = position[0];
-    y = position[1];
-    console.log("x: " + x + ", " + "y: " + y);
+  if (position[0] != person.x && position[1] != person.y) {
+    person.x = position[0];
+    person.y = position[1];
+    console.log("x: " + person.x + ", " + "y: " + person.y);
+    io.emit('player', person);
   } else {
     return 0;
   }
 }
-
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
@@ -41,7 +47,6 @@ io.on('connection', function(socket){
     console.log('Later Person #' + uuid + '!');
   });
 });
-
 
 http.listen(3000, function(){
   console.log('Picking up n00bs on :3000');
