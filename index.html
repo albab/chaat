@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <title>chaat</title>
+    <style>
+      .people {
+        width:100%;
+        height:700px;
+        background-color:red;
+      }
+    </style>
+  </head>
+  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script>
+    var socket = io();
+    var cursorX;
+    var cursorY;
+    var position = [];
+
+    $(document).ready(function() {
+      document.onmousemove = function(e){
+        cursorX = e.pageX;
+        cursorY = e.pageY;
+      }
+
+      function cursor(){
+        position.push(cursorX);
+        position.push(cursorY);
+        socket.emit('position', position);
+        position = [];
+      }
+      cursor();
+      setInterval(cursor, 100);
+    });
+
+
+  </script>
+  <body>
+    <div class="people"></div>
+  </body>
+</html>
