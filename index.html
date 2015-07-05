@@ -36,7 +36,6 @@
       Crafty.init();
 
       Crafty.addEvent(this, Crafty.stage.elem, 'mousedown', function(e) {
-        console.log('mousedown at (' + e.clientX + ', ' + e.clientY + ')');
         color = getRandomColor();
         socket.emit('set_color', color);
         console.log(color);
@@ -44,7 +43,6 @@
 
       Crafty.addEvent(this, Crafty.stage.elem, 'mousemove', function(e) {
         var relative = Crafty.DOM.translate(e.clientX, e.clientY);
-        console.log('mousemove at (' + relative.x + ', ' + relative.y + ')');
         cursorX = relative.x;
         cursorY = relative.y;
 
@@ -62,12 +60,12 @@
         position = [];
       }
       cursor();
-      setInterval(cursor, 100);
+      setInterval(cursor, 1);
 
       socket.on('player', function(player){
         // $('.people').append($('<div>').text("X: " + player.x + ", Y: " + player.y));
         Crafty.e('2D, Canvas, Color, Fourway')
-          .attr({x: player.x, y: player.y, w: 50, h: 50})
+          .attr({x: player.x -30, y: player.y - 25, w: 50, h: 50})
           .color(player.player_color)
           .fourway(4);
         });
