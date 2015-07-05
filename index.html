@@ -5,23 +5,53 @@
     <style>
       .people {
         width:100%;
-        height:700px;
-        background-color:red;
+        height:1000px;
+        /*background-color:red;*/
       }
     </style>
   </head>
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crafty/0.5.3/crafty-min.js"></script>
   <script>
     var socket = io();
     var cursorX;
     var cursorY;
     var position = [];
+    var color = getRandomColor();
+
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF'.split('');
+      var color = '#';
+      for (var i = 0; i < 6; i++ ) {
+          color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
 
     $(document).ready(function() {
+
+
+      Crafty.init();
+
+      Crafty.addEvent(this, Crafty.stage.elem, 'mousedown', function(e) {
+        console.log('mousedown at (' + e.clientX + ', ' + e.clientY + ')');
+        color = getRandomColor();
+        console.log(color);
+      });
+
+      Crafty.addEvent(this, Crafty.stage.elem, 'mousemove', function(e) {
+        var relative = Crafty.DOM.translate(e.clientX, e.clientY);
+        console.log('mousemove at (' + relative.x + ', ' + relative.y + ')');
+        cursorX = relative.x;
+        cursorY = relative.y;
+
+      }.bind(this));
+
       document.onmousemove = function(e){
-        cursorX = e.pageX;
-        cursorY = e.pageY;
+        cursorX = e.clientX;
+        cursorY = e.clientY;
       }
 
       function cursor(){
@@ -34,15 +64,20 @@
       setInterval(cursor, 100);
 
       socket.on('player', function(player){
-        $('.people').append($('<div>').text("X: " + player.x + ", Y: " + player.y));
+        // $('.people').append($('<div>').text("X: " + player.x + ", Y: " + player.y));
+        Crafty.e('2D, Canvas, Color, Fourway')
+          .attr({x: player.x, y: player.y, w: 50, h: 50})
+          .color(color)
+          .fourway(4);
+        });
       });
-    });
 
 
   </script>
   <body>
-    <div class="people">
+    <div id="game"></div>
+<!--     <div class="people">
       <div id="player"></div>
-    </div>
+    </div> -->
   </body>
 </html>
