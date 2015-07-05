@@ -6,6 +6,7 @@ var Person = function () {
   this.x = 0;
   this.y = 0;
   this.points = 0;
+  this.player_color = null;
 };
 
 var person = new Person();
@@ -41,6 +42,12 @@ io.on('connection', function(socket){
 
   socket.on('position', function(position){
     check_and_set_position(position);
+  });
+
+  socket.on('set_color', function(color){
+    if (person) {
+      person.player_color = color;
+    }
   });
 
   socket.on('disconnect', function(){
