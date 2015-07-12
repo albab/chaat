@@ -8,17 +8,34 @@
         height:1000px;
         /*background-color:red;*/
       }
+
+      .modal-content {
+          height: 100px;
+          width: 400px;
+          margin-left: auto;
+          margin-right:auto;
+          text-align: center;
+          margin-top: 200px;
+      }
+
+      .here_to_enter {
+        margin-top:20px;
+      }
     </style>
   </head>
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crafty/0.5.3/crafty-min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script>
     var socket = io();
     var cursorX;
     var cursorY;
     var position = [];
     var color = getRandomColor();
+    var player_name = "";
+
 
     function getRandomColor() {
       var letters = '0123456789ABCDEF'.split('');
@@ -30,7 +47,14 @@
     }
 
 
-    $(document).ready(function() {
+    function set_player_name(){
+      player_name = document.getElementById("player_name").value;
+      do_it_up();
+    }
+
+    var do_it_up = function() {
+
+      $('#myModal').modal('hide');
 
 
       Crafty.init();
@@ -69,7 +93,13 @@
           .color(player.player_color)
           .fourway(4);
         });
-      });
+    }
+
+
+
+    $(document).ready(function() {
+      $('#myModal').modal('show');
+    });
 
 
   </script>
@@ -78,5 +108,27 @@
 <!--     <div class="people">
       <div id="player"></div>
     </div> -->
+
+  <!-- Modal -->
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content text-center ">
+        <div class="here_to_enter">
+          <input type="text" id="player_name" placeholder="Name"></input>
+          <button onclick="set_player_name()" class="btn btn-success">Enter</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
   </body>
 </html>

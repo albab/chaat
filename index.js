@@ -5,6 +5,7 @@ var io = require('socket.io')(http);
 var Person = function () {
   this.x = 0;
   this.y = 0;
+  this.name = "";
   this.points = 0;
   this.player_color = null;
 };
