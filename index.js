@@ -8,6 +8,7 @@ var Person = function () {
   this.name = "";
   this.points = 0;
   this.player_color = null;
+  this.uuid = null;
 };
 
 var person = new Person();
@@ -38,7 +39,7 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-  var uuid = guid();
+  person.uuid = guid();
   console.log('Person #' + uuid + ' has joined :)');
 
   socket.on('position', function(position){
