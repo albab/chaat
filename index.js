@@ -40,7 +40,7 @@ app.get('/', function(req, res){
 
 io.on('connection', function(socket){
   person.uuid = guid();
-  console.log('Person #' + uuid + ' has joined :)');
+  console.log('Person #' + person.uuid + ' has joined :)');
 
   socket.on('position', function(position){
     check_and_set_position(position);
@@ -53,7 +53,7 @@ io.on('connection', function(socket){
   });
 
   socket.on('disconnect', function(){
-    console.log('Later Person #' + uuid + '!');
+    console.log('Later Person #' + person.uuid + '!');
   });
 });
 
